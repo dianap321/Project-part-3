@@ -5,6 +5,7 @@ import IO.MyDecompressorInputStream;
 import Server.*;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
 import javafx.beans.InvalidationListener;
 //import Server.ServerStrategyGenerateMaze;
@@ -83,6 +84,47 @@ public class MyModel extends Observable implements IModel {
         SolveMazeServer.stop();
     }
 
+    @Override
+    public void save(File file) {
+        try {
+            OutputStream out = new FileOutputStream(file);
+            ObjectOutputStream objectOutput = new ObjectOutputStream(out);
+            //Maze toSave=new Maze(new Position(rowPlayer,colPlayer),maze.getGoalPosition(),maze.getMaze());
+            objectOutput.writeObject(maze.toByteArray());
+            objectOutput.flush();
+            objectOutput.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void load(File file) {
+
+        try {
+        InputStream in = null;
+        in = new FileInputStream(file);
+        ObjectInputStream objectIn = new ObjectInputStream(in);
+        byte[] loadedMaze = (byte[]) objectIn.readObject();
+        objectIn.close();
+        in.close();
+        maze = new Maze(loadedMaze);
+        setFields();
+        setChanged();
+        notifyObservers("maze generated");
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            }
+        catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     private void setFields() {
         playerRow = maze.getStartPosition().getRowIndex();
         playerCol = maze.getStartPosition().getColumnIndex();
@@ -194,5 +236,9 @@ public class MyModel extends Observable implements IModel {
     private void notifyMovement() {
         setChanged();
         notifyObservers("player moved");
+    }
+
+    public void saveMaze(){
+
     }
 }

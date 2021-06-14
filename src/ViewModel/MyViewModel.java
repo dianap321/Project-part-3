@@ -19,6 +19,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyEvent;
 
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -94,5 +95,17 @@ public class MyViewModel extends Observable implements Observer {
 
     public int getPlayerCol(){
         return model.getPlayerCol();
+    }
+
+    public int getGoalRow(){return model.getMaze().getGoalPosition().getRowIndex();}
+
+    public int getGoalCol(){return model.getMaze().getGoalPosition().getColumnIndex();}
+
+    public void saveMaze(File file) {
+        model.save(file);
+    }
+
+    public void load(File file) {
+        model.load(file);
     }
 }

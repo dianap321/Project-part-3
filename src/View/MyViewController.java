@@ -27,10 +27,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -42,6 +43,7 @@ public class MyViewController implements IView, Initializable, Observer {
     public Menu solution_menu;
     public CheckMenuItem sol_show;
     public BorderPane pane;
+    public MenuItem save;
     private MyViewModel viewModel;
 
     public void setMyViewModel(MyViewModel viewModel) {
@@ -108,6 +110,41 @@ public class MyViewController implements IView, Initializable, Observer {
         mazeDisplayer.setGetPlayerPos(row, col);
         setUpdatePlayerRow(row);
         setUpdatePlayerCol(col);
+        int gr = viewModel.getGoalRow();
+        int gc = viewModel.getGoalCol();
+        if (row == gr && col == gc)
+            goalReached();
+    }
+
+    private void goalReached() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        ButtonType newGame = new ButtonType("New Game");
+//        ButtonType exit = new ButtonType("Exit Game");
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"",newGame,exit);
+        alert.setHeight(300);
+        alert.setWidth(500);
+        Image image = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Emojione_1F62D.svg/64px-Emojione_1F62D.svg.png");
+        ImageView imageView = new ImageView(image);
+        alert.setGraphic(imageView);
+        alert.setTitle("You solved the maze!");
+        alert.setResizable(true);
+        alert.setHeaderText("YAY! YOU DID IT!");
+        alert.setContentText("Congratulations! You helped A reach B!");
+        Optional<ButtonType> selcted = alert.showAndWait();
+        if(!selcted.isPresent());
+        // alert is exited, no button has been pressed.
+        else if(selcted.get() == ButtonType.OK)
+        {
+            try {
+                generateMaze(String.valueOf(viewModel.getMaze().getMaze().length), String.valueOf(viewModel.getMaze().getMaze()[0].length));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(selcted.get() == ButtonType.CANCEL)
+        {
+            Exit();
+        }
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {
@@ -147,7 +184,7 @@ public class MyViewController implements IView, Initializable, Observer {
     private void mazeGenerated() {
         mazeDisplayer.drawMaze(viewModel.getMaze());
         solution_menu.setDisable(false);
-
+        save.setDisable(false);
     }
 
     public void About(ActionEvent actionEvent) throws IOException {
@@ -161,6 +198,10 @@ public class MyViewController implements IView, Initializable, Observer {
     }
 
     public void Exit(ActionEvent actionEvent) {
+        viewModel.exit();
+        Platform.exit();
+    }
+    public void Exit() {
         viewModel.exit();
         Platform.exit();
     }
@@ -352,6 +393,43 @@ public class MyViewController implements IView, Initializable, Observer {
             }
         });
 
+    }
+
+    public void Save(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("maze", "*.maze"));
+        File File = fileChooser.showSaveDialog(null);
+
+        if (File != null) {
+            viewModel.saveMaze(File);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("File was not saved.");
+        }
+    }
+
+    public void Load(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("maze", "*.maze"));
+        File file= fileChooser.showOpenDialog(stage);
+        if(file!=null)
+        {
+           if (file.getPath().endsWith(".maze"))
+               viewModel.load(file);
+            else
+           {
+               Alert alert = new Alert(Alert.AlertType.WARNING);
+               alert.setContentText("Can't load a file that is not .maze.");
+           }
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("File was not loaded.");
+        }
     }
 }
 
