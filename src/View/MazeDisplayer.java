@@ -93,7 +93,7 @@ public class MazeDisplayer extends Canvas {
         draw();
     }
 
-    private void draw() {
+    public void draw() {
         if (maze != null){
             double canvasHeight = getHeight();
             double canvasWidth = getWidth();
@@ -110,8 +110,8 @@ public class MazeDisplayer extends Canvas {
 
             drawMazeWalls(graphicsContext,rows, cols,cellHeight, cellWidth);
             if(solution != null)
-                drawSolution(graphicsContext, cellWidth,cellHeight);
-            drawMazePlayer(graphicsContext, cellWidth, cellHeight);
+                drawSolution(graphicsContext,cellHeight, cellWidth);
+            drawMazePlayer(graphicsContext ,cellHeight, cellWidth);
             drawGoalPosition(graphicsContext, cellWidth, cellHeight);
         }
     }

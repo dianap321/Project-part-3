@@ -12,6 +12,8 @@ import ViewModel.MyViewModel;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -168,7 +170,7 @@ public class MyViewController implements IView, Initializable, Observer {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("MazeScreen.fxml").openStream());
-            Scene scene = new Scene(root, 900, 900);
+            Scene scene = new Scene(root, 500, 500);
             scene.getStylesheets().add(getClass().getResource("MainStyle.css").toExternalForm());
             //BackPlayer.pause(); //pause the back music
             stage.setScene(scene);
@@ -177,6 +179,8 @@ public class MyViewController implements IView, Initializable, Observer {
             myViewController.setStage(stage);
             myViewController.setMyViewModel(viewModel);
             viewModel.addObserver(myViewController);
+
+            myViewController.setResizeEvent(scene);
             stage.show();
 
 
@@ -329,5 +333,25 @@ public class MyViewController implements IView, Initializable, Observer {
                 viewModel.solveMaze();
     }
 
+
+    public void setResizeEvent(Scene scene) {
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+
+                mazeDisplayer.setHeight((Double) newSceneHeight-25.3333);
+                mazeDisplayer.draw();
+            }
+        });
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+
+                mazeDisplayer.setWidth((Double) newSceneWidth);
+                mazeDisplayer.draw();
+            }
+        });
+
+    }
 }
 

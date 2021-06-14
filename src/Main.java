@@ -37,7 +37,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MyView.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Maze"); //change name
-        primaryStage.setScene(new Scene(root, 600, 600));
+        primaryStage.setScene(new Scene(root, 400, 400));
 
 
         IModel model = new MyModel();
@@ -46,8 +46,9 @@ public class Main extends Application {
         view.setMyViewModel(viewModel);
         viewModel.addObserver(view);
         view.setStage(primaryStage);
-
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(e->viewModel.exit());
     }
 
 
