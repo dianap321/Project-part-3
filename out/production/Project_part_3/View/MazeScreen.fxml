@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import View.MazeDisplayer?>
+<BorderPane fx:id="pane" onMouseClicked="#mouseClicked" prefHeight="432.0" prefWidth="595.0" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+   <bottom>
+      <HBox prefHeight="0.0" prefWidth="336.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#New" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Load" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Options">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Proparties" text="Properties" />
+                        <CheckMenuItem mnemonicParsing="false" text="Mute" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Instructions" text="Instructions" />
+                     </items>
+                  </Menu>
+                  <Menu fx:id="solution_menu" disable="true" mnemonicParsing="false" text="Solution">
+                     <items>
+                        <CheckMenuItem fx:id="sol_show" mnemonicParsing="false" onAction="#show_hide_sol" text="Show/Hide" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="About">
+                     <items>
+                        <MenuItem fx:id="About" mnemonicParsing="false" onAction="#About" text="About" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Exit">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Exit" text="Exit" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <Pane prefHeight="335.0" prefWidth="327.0" BorderPane.alignment="CENTER">
+         <children>
+            <MazeDisplayer fx:id="mazeDisplayer"  height="400" imageFileNameGoal="./resources/images/Arthur.png" imageFileNamePlayer="./resources/images/gili.png" imageFileNameWall="./resources/images/wall.jpg" onKeyPressed="#keyPressed" width="400.0" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Pane>
+   </center>
+</BorderPane>
+
