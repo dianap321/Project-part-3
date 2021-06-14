@@ -10,6 +10,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
@@ -174,7 +175,6 @@ public class MazeDisplayer extends Canvas {
         graphicsContext.setFill(Color.RED);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                System.out.println(maze.getMaze()[i][j]);
                 if(maze.getMaze()[i][j] == 1){
 
                     //it is a wall
@@ -192,6 +192,35 @@ public class MazeDisplayer extends Canvas {
     public void setSolution(Solution solution) {
         this.solution = solution;
         draw();
+    }
+
+    public void zoom(ScrollEvent scrollEvent) {
+        double zoomTimes = 1.05;
+        if(!scrollEvent.isControlDown())
+        {
+            return;
+        }
+        if (scrollEvent.getDeltaY() < 0)
+        {
+            if (getHeight() < getScene().getHeight() - 20 || getWidth() < getScene().getWidth() -20) {
+                //we check this condition because we don't want our maze to be smaller than our window
+                return;
+            }
+            setHeight(getHeight() / zoomTimes);
+            setWidth(getWidth() / zoomTimes);
+        }
+        if (scrollEvent.getDeltaY() > 0)
+        {
+           /* if (getHeight() > 7000 || getWidth() > 7000)
+                return;*/
+
+            setHeight(getHeight() * zoomTimes);
+            setWidth(getWidth() * zoomTimes);
+        }
+
+
+        draw();
+
     }
 }
 

@@ -60,7 +60,6 @@ public class MyModel extends Observable implements IModel {
                         byte[] decompressedMaze = new byte[rows*cols+12];
                         is.read(decompressedMaze);
                         maze = new Maze(decompressedMaze);
-                        maze.print();
                     }
                     catch(IOException | ClassNotFoundException e){
                         e.printStackTrace();

@@ -23,8 +23,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -102,7 +104,7 @@ public class MyViewController implements IView, Initializable, Observer {
     }
 
     public void keyPressed(KeyEvent keyEvent) {
-        viewModel.movePlayer(keyEvent);
+        viewModel.movePlayer(keyEvent.getCode());
         keyEvent.consume();
     }
 
@@ -380,7 +382,7 @@ public class MyViewController implements IView, Initializable, Observer {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
 
-                mazeDisplayer.setHeight((Double) newSceneHeight-25.3333);
+                mazeDisplayer.setHeight((Double) newSceneHeight-35.3333);
                 mazeDisplayer.draw();
             }
         });
@@ -388,7 +390,7 @@ public class MyViewController implements IView, Initializable, Observer {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
 
-                mazeDisplayer.setWidth((Double) newSceneWidth);
+                mazeDisplayer.setWidth((Double) newSceneWidth-10);
                 mazeDisplayer.draw();
             }
         });
@@ -430,6 +432,32 @@ public class MyViewController implements IView, Initializable, Observer {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("File was not loaded.");
         }
+    }
+
+    public void zoom(ScrollEvent scrollEvent) {
+        mazeDisplayer.zoom(scrollEvent);
+    }
+
+    public void drag(MouseEvent mouseEvent) {
+        if(viewModel.getMaze() == null)
+        {
+            return;
+        }
+        double x = mouseEvent.getX() / (mazeDisplayer.getWidth() / viewModel.getMaze().getMaze()[0].length);
+        double y = mouseEvent.getY() / (mazeDisplayer.getHeight() / viewModel.getMaze().getMaze().length);
+        if(x > viewModel.getPlayerCol()+1){
+            viewModel.movePlayer(KeyCode.NUMPAD6); //RIGHT
+        }
+        else if(x < viewModel.getPlayerCol()){
+            viewModel.movePlayer(KeyCode.NUMPAD4); //LEFT
+        }
+        else if(y < viewModel.getPlayerRow()){
+            viewModel.movePlayer(KeyCode.NUMPAD8); //UP
+        }
+        else if(y > viewModel.getPlayerRow()+1){
+            viewModel.movePlayer(KeyCode.NUMPAD2); //DOWN
+        }
+
     }
 }
 
