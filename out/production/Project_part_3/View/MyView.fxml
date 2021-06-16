@@ -41,7 +41,7 @@
                         <Menu mnemonicParsing="false" text="Options">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#Proparties" text="Properties" />
-                        <CheckMenuItem mnemonicParsing="false" text="Mute" />
+                        <CheckMenuItem fx:id="mute" mnemonicParsing="false" onAction="#Mute" text="Mute" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">

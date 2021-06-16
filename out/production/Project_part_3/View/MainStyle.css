@@ -1,5 +1,7 @@
 .root {
-    -fx-background-color: bisque;
+        -fx-background-image: url("resources/images/background.jpg");
+        -fx-background-repeat: no-repeat;
+        -fx-background-size: cover;
 }
 
 Button {

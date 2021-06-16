@@ -13,7 +13,7 @@
 
 
 <?import javafx.scene.control.ScrollPane?>
-<BorderPane fx:id="pane" onMouseClicked="#mouseClicked" onScroll="#zoom" prefHeight="500" prefWidth="500" stylesheets="@MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane fx:id="pane" onMouseClicked="#mouseClicked" onScroll="#zoom" prefHeight="500" prefWidth="500" stylesheets="MainStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <bottom>
       <HBox prefHeight="0.0" prefWidth="336.0" BorderPane.alignment="CENTER" />
    </bottom>
@@ -32,7 +32,7 @@
                   <Menu mnemonicParsing="false" text="Options">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#Proparties" text="Properties" />
-                        <CheckMenuItem mnemonicParsing="false" text="Mute" />
+                        <CheckMenuItem fx:id="mute" onAction="#Mute" mnemonicParsing="false" text="Mute" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Help">
@@ -63,7 +63,7 @@
    <center>
       <ScrollPane BorderPane.alignment="CENTER">
          <content>
-            <MazeDisplayer fx:id="mazeDisplayer" height="464.666666" onMouseDragged="#drag" imageFileNameGoal="./resources/images/Arthur.png" imageFileNamePlayer="./resources/images/gili.png" imageFileNameWall="./resources/images/wall.jpg" onKeyPressed="#keyPressed" width="490" />
+            <MazeDisplayer fx:id="mazeDisplayer" height="464.666666" onMouseDragged="#drag" imageFileNameGoal="./resources/images/nemo.png" imageFileNamePlayer="./resources/images/dad_and_dory.png" imageFileNameWall="./resources/images/seaweed1.png" imageFileNameWall2="./resources/images/coral.png" onKeyPressed="#keyPressed" width="490" />
          </content>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

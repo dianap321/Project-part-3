@@ -16,10 +16,12 @@ import javafx.scene.paint.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MazeDisplayer extends Canvas {
     Maze maze;
     StringProperty imageFileNameWall = new SimpleStringProperty();
+    StringProperty imageFileNameWall2 = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNameGoal = new SimpleStringProperty();
     private int playerRow;
@@ -27,6 +29,14 @@ public class MazeDisplayer extends Canvas {
     private int goalRow;
     private int goalCol;
     private Solution solution;
+
+    public String getImageFileNameWall2() {
+        return imageFileNameWall2.get();
+    }
+
+    public void setImageFileNameWall2(String imageFileNameWall2) {
+        this.imageFileNameWall2.set(imageFileNameWall2);
+    }
 
     public String getImageFileNameGoal() {
         return imageFileNameGoal.get();
@@ -166,12 +176,15 @@ public class MazeDisplayer extends Canvas {
 
     private void drawMazeWalls(GraphicsContext graphicsContext, int rows, int cols, double cellHeight, double cellWidth) {
         Image wall = null;
+        //Image wall2 = null;
         try {
             wall = new Image(new FileInputStream(getImageFileNameWall()));
+           // wall2 = new Image(new FileInputStream(getImageFileNameWall2()));
         } catch (FileNotFoundException e) {
             System.out.println("No such Image.");
         }
-        maze.print();
+//        Random r = new Random();
+//        int choise;
         graphicsContext.setFill(Color.RED);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -180,10 +193,16 @@ public class MazeDisplayer extends Canvas {
                     //it is a wall
                     double x = i * cellHeight;
                     double y = j * cellWidth;
-                    if ( wall == null)
+                    if ( wall == null )//|| wall2 ==null
                         graphicsContext.fillRect(y, x, cellWidth, cellHeight);
-                    else
-                        graphicsContext.drawImage(wall,y,x,cellWidth,cellHeight);
+                    else{
+//                        if (Math.round(Math.random()) == 0)
+                            graphicsContext.drawImage(wall,y,x,cellWidth,cellHeight);
+//                        else
+//                            graphicsContext.drawImage(wall2,y,x,cellWidth,cellHeight);
+
+                    }
+
                 }
             }
         }
